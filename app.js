@@ -5,6 +5,7 @@ const fs = require("fs");
 
 // MongoDB Call
 const db = require("./server").db();
+const mongodb = require("mongodb");
 
 let user;
 fs.readFile("database/user.json", "utf8", (err, data) => {
@@ -27,18 +28,42 @@ app.set("view engine", "ejs");
 
 // 4: Routing code
 app.post("/create-item", (req, res) => {
-  console.log(req.body);
+  console.log("user entered /create-item");
+  const new_reja = req.body.reja;
+  db.collection("plans").insertOne({ reja: new_reja }, (err, data) => {
+    console.log(data.ops);
+    res.json(data.ops[0]);
+  });
   // console.log(req);
-  res.json({ test: "success"});
+  // res.json({ test: "success"});
 });
 
 app.get('/author', (req, res) => { 
   res.render("author", { user: user });
 });
 
+app.post("/delete-item", (req, res) => {
+  const id = req.body.id;
+  db.collection("plans").deleteOne(
+    {_id: new mongodb.ObjectId(id) },
+    function(err, data) {
+      res.json({ state: "success"});
+    }
+  );
+});
 
 app.get("/", function (req, res) {
-  res.render("reja");
+  console.log("user entered /");
+  db.collection("plans")
+  .find()
+  .toArray((err, data) => {
+    if(err) {
+      console.log(err);
+      res.end("something went wrong");
+    } else {
+      res.render("reja", { items: data });
+    }
+  });
 });
 
 module.exports = app;
