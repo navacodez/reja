@@ -136,3 +136,39 @@ console.log("passed here 2");
 
 // console.log(checkContent("MitGroup", "mixgroup")) // false
 // console.log(checkContent("Navruz", "Navruz")) // true
+
+
+class Shop {
+  constructor(non, lagmon, cola) {
+    this.products = { non, lagmon, cola };
+  }
+
+  logTime() {
+    return new Date().toLocaleTimeString('uz-UZ');
+  }
+
+  qoldiq() {
+    console.log(`Hozir ${this.logTime()}da ${this.products.non}ta non, 
+    ${this.products.lagmon}ta lagmon va ${this.products.cola}ta cola mavjud!`);
+  }
+
+  sotish(mahsulot, soni) {
+    if (this.products[mahsulot] >= soni) {
+      this.products[mahsulot] -= soni;
+      console.log(`Hozir ${this.logTime()}da ${soni}ta ${mahsulot} sotildi!`);
+    } else {
+      console.log(`Hozir ${this.logTime()}da yetarli ${mahsulot} yo'q!`);
+    }
+  }
+
+  qabul(mahsulot, soni) {
+    this.products[mahsulot] += soni;
+    console.log(`Hozir ${this.logTime()}da ${soni}ta ${mahsulot} qabul qilindi!`);
+  }
+}
+
+const shop = new Shop(4, 5, 2);
+shop.qoldiq();
+shop.sotish('non', 3);
+shop.qabul('cola', 4);
+shop.qoldiq();
