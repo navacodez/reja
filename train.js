@@ -137,7 +137,7 @@ console.log("passed here 2");
 // console.log(checkContent("MitGroup", "mixgroup")) // false
 // console.log(checkContent("Navruz", "Navruz")) // true
 
-
+// D TASK
 class Shop {
   constructor(non, lagmon, cola) {
     this.products = { non, lagmon, cola };
